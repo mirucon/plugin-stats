@@ -1,7 +1,6 @@
 <template lang="pug">
   #app
-
-    pie-chart
+    pie-chart(:requires="requires")
 </template>
 
 <script>
@@ -10,10 +9,7 @@ import Vue from 'vue'
 import PieChart from './components/PieChart'
 import {Pie} from 'vue-chartjs'
 
-console.clear()
-
-const App = new Vue({
-  el: '#app',
+export default {
   components: {
     PieChart
   },
@@ -23,7 +19,8 @@ const App = new Vue({
       tested: [],
       requires_php: [],
       errors: [],
-      url: 'https://api.miruc.co/plugins.min.json'
+      url: 'https://api.miruc.co/plugins.min.json',
+      test: 'test'
     }
   },
   created: function () {
@@ -37,7 +34,7 @@ const App = new Vue({
       this.errors.push(e)
     })
   }
-})
+}
 </script>
 
 <style lang="scss">
@@ -49,21 +46,17 @@ const App = new Vue({
   color: #2c3e50;
   margin-top: 60px;
 }
-
 h1, h2 {
   font-weight: normal;
 }
-
 ul {
   list-style-type: none;
   padding: 0;
 }
-
 li {
   display: inline-block;
   margin: 0 10px;
 }
-
 a {
   color: #42b983;
 }
