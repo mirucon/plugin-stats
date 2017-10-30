@@ -1,11 +1,12 @@
 <template lang="pug">
   #app
-    pie-chart(:requires="requires")
+    pie-chart(:width="400", :height="400", :requires="requires")
+    pie-chart(:tested="tested")
+    pie-chart(:width="600", :height="600", :requires_php="requires_php")
 </template>
 
 <script>
 import axios from 'axios'
-import Vue from 'vue'
 import PieChart from './components/PieChart'
 import {Pie} from 'vue-chartjs'
 
