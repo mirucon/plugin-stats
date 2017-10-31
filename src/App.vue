@@ -8,7 +8,6 @@
 <script>
 import axios from 'axios'
 import PieChart from './components/PieChart'
-import {Pie} from 'vue-chartjs'
 
 export default {
   components: {
@@ -20,7 +19,7 @@ export default {
       tested: [],
       requires_php: [],
       errors: [],
-      url: 'https://api.miruc.co/plugins.min.json',
+      url: 'https://raw.githubusercontent.com/Mirucon/plugin-stats/master/plugins.min.json',
       test: 'test'
     }
   },

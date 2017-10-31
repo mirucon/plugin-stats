@@ -4,16 +4,7 @@ import {Pie} from 'vue-chartjs'
 export default {
   extends: Pie,
   props: ['requires', 'tested', 'requires_php'],
-  data () {
-    return {
-      'keys': [],
-      'values': []
-    }
-  },
   mounted: function () {
-    this.keys = Object.keys(this.requires_php)
-    this.keys.sort()
-    console.log(this.keys)
     this.renderChart({
       labels: Object.keys(this.requires_php),
       datasets: [
