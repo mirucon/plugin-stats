@@ -1,8 +1,8 @@
 <template lang="pug">
   #app
-    pie-chart(:width="400", :height="400", :requires="requires")
-    pie-chart(:tested="tested")
-    pie-chart(:width="600", :height="600", :requires_php="requires_php")
+    pie-chart(:width="300", :height="300", :chart-data="chartData")
+    pie-chart(:width="300", :height="300", :options="{responsive: false, maintainAspectRatio: false}", :chart-data="chartDataTes")
+    pie-chart(:width="300", :height="300", :options="{responsive: false, maintainAspectRatio: false}", :chart-data="chartDataRqp")
 </template>
 
 <script>
@@ -15,12 +15,12 @@ export default {
   },
   data () {
     return {
-      requires: [],
-      tested: [],
-      requires_php: [],
+      requires: {},
+      tested: {},
+      requires_php: {},
+      chartData: {},
       errors: [],
-      url: 'https://raw.githubusercontent.com/Mirucon/plugin-stats/master/plugins.min.json',
-      test: 'test'
+      url: 'https://raw.githubusercontent.com/Mirucon/plugin-stats/master/plugins.min.json'
     }
   },
   created: function () {
@@ -33,6 +33,58 @@ export default {
     .catch(e => {
       this.errors.push(e)
     })
+  },
+  methods: {
+    fillData () {
+      this.chartData = {
+        labels: Object.keys(this.requires),
+        datasets: [
+          {
+            label: 'What version of WordPress requires?',
+            backgroundColor: '#f87979',
+            data: Object.values(this.requires)
+          }
+        ]
+      }
+    },
+    fillDataTes () {
+      this.chartDataTes = {
+        labels: Object.keys(this.tested),
+        datasets: [
+          {
+            label: 'What version of WordPress requires?',
+            backgroundColor: '#f87979',
+            data: Object.values(this.tested)
+          }
+        ]
+      }
+    },
+    fillDataRqp () {
+      this.chartDataRqp = {
+        labels: Object.keys(this.requires_php),
+        datasets: [
+          {
+            label: 'What version of WordPress requires?',
+            backgroundColor: '#f87979',
+            data: Object.values(this.requires_php)
+          }
+        ]
+      }
+    }
+  },
+  mounted () {
+    this.fillData()
+  },
+  watch: {
+    requires: function () {
+      this.fillData()
+    },
+    tested: function () {
+      this.fillDataTes()
+    },
+    requires_php: function () {
+      this.fillDataRqp()
+    }
   }
 }
 </script>
