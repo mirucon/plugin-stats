@@ -1,8 +1,8 @@
 <template lang="pug">
   #app
     pie-chart(:width="300", :height="300", :chart-data="chartData")
-    pie-chart(:width="300", :height="300", :options="{responsive: false, maintainAspectRatio: false}", :chart-data="chartDataTes")
-    pie-chart(:width="300", :height="300", :options="{responsive: false, maintainAspectRatio: false}", :chart-data="chartDataRqp")
+    pie-chart(:width="300", :height="300", :chart-data="chartDataTes")
+    pie-chart(:width="300", :height="300", :chart-data="chartDataRqp")
 </template>
 
 <script>
@@ -19,6 +19,8 @@ export default {
       tested: {},
       requires_php: {},
       chartData: {},
+      chartDataTes: {},
+      chartDataRqp: {},
       errors: [],
       url: 'https://raw.githubusercontent.com/Mirucon/plugin-stats/master/plugins.min.json'
     }
