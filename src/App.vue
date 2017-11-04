@@ -1,8 +1,8 @@
 <template lang="pug">
   #app
-    pie-chart(:width="300", :height="300", :chart-data="chartData")
-    pie-chart(:width="300", :height="300", :chart-data="chartDataTes")
-    pie-chart(:width="300", :height="300", :chart-data="chartDataRqp")
+    pie-chart.chart.wpver(:width="300", :height="300", :chart-data="chartData")
+    pie-chart.chart.wptest(:width="300", :height="300", :chart-data="chartDataTes")
+    pie-chart.chart.phpver(:width="300", :height="300", :chart-data="chartDataRqp")
 </template>
 
 <script>
@@ -43,7 +43,8 @@ export default {
         datasets: [
           {
             label: 'What version of WordPress requires?',
-            backgroundColor: '#f87979',
+            backgroundColor: '#444444',
+            borderWidth: 0.4,
             data: Object.values(this.requires)
           }
         ]
@@ -54,8 +55,9 @@ export default {
         labels: Object.keys(this.tested),
         datasets: [
           {
-            label: 'What version of WordPress requires?',
-            backgroundColor: '#f87979',
+            label: 'On what version of WordPress tested?',
+            backgroundColor: '#444444',
+            borderWidth: 0.4,
             data: Object.values(this.tested)
           }
         ]
@@ -66,16 +68,14 @@ export default {
         labels: Object.keys(this.requires_php),
         datasets: [
           {
-            label: 'What version of WordPress requires?',
-            backgroundColor: '#f87979',
+            label: 'What version of PHP requires?',
+            backgroundColor: '#444444',
+            borderWidth: 0.4,
             data: Object.values(this.requires_php)
           }
         ]
       }
     }
-  },
-  mounted () {
-    this.fillData()
   },
   watch: {
     requires: function () {
