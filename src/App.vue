@@ -1,22 +1,26 @@
 <template lang="pug">
   #app
-    chart-heading.heading-wpver(:data="requires") Required WordPress Version
+    h1 Plugin Stats
+    p This is an unofficial stats for the plugins that are available in the WordPress.org plugin repository.
+    p There are currently <strong>{{ total }}</strong> plugins in the repo.
+
+    chart-heading.heading-wpver(:data="requires", kind="req") Required WordPress Version
     pie-chart.chart.wpver(:width="300", :height="300", :chart-data="chartData")
 
-    chart-heading.heading-wptest(:data="tested") Tested WordPress Version
+    chart-heading.heading-wptest(:data="tested", kind="tes") Tested WordPress Version
     pie-chart.chart.wptest(:width="300", :height="300", :chart-data="chartDataTes")
 
-    chart-heading.heading-phpver(:data="requires_php") Required PHP Version
+    chart-heading.heading-phpver(:data="requires_php" kind="rqp") Required PHP Version
     pie-chart.chart.phpver(:width="300", :height="300", :chart-data="chartDataRqp")
 
-    chart-heading.heading-dl(:data="downloads") Downloads
+    chart-heading.heading-dl(:data="downloads", kind="dl") Downloads
     pie-chart.chart.dl(:width="300", :height="300", :chart-data="chartDataDl")
 
-    chart-heading.heading-ins(:data="installs") Active Installs
+    chart-heading.heading-ins(:data="installs", kind="ins") Active Installs
     pie-chart.chart.ins(:width="300", :height="300", :chart-data="chartDataIns")
 
-    chart-heading.heading-ins(:data="dates") Last update
-    pie-chart.chart.ins(:width="300", :height="300", :chart-data="fillDataDates")
+    chart-heading.heading-dates(:data="dates", kind="dates") Last update
+    pie-chart.chart.dates(:width="300", :height="300", :chart-data="chartDataDates")
 </template>
 
 <script>
@@ -37,11 +41,13 @@ export default {
       downloads: {},
       installs: {},
       dates: {},
+      total: '',
       chartData: {},
       chartDataTes: {},
       chartDataRqp: {},
       chartDataDl: {},
       chartDataIns: {},
+      chartDataDates: {},
       errors: [],
       url: 'https://raw.githubusercontent.com/Mirucon/plugin-stats/master/plugins.min.json'
     }
@@ -55,6 +61,7 @@ export default {
       this.downloads = response.data[3]
       this.installs = response.data[4]
       this.dates = response.data[5]
+      this.total = response.data[6]
     })
     .catch(e => {
       this.errors.push(e)
@@ -127,7 +134,7 @@ export default {
       }
     },
     fillDataDates () {
-      this.chartDataIns = {
+      this.chartDataDates = {
         labels: Object.keys(this.dates),
         datasets: [
           {

@@ -1,24 +1,24 @@
 <template lang="pug">
-  h2 {{ total }}
+  h2 {{ total }} {{ kind }}
 </template>
 
 <script>
 export default {
   props: {
-    data: Object
+    data: Object,
+    kind: String
   },
   data () {
     return {
       total: '',
-      num: '',
-      percents: '',
-      msg: 'hi'
+      percents: ''
     }
   },
   methods: {
     getChartData () {
       var total = 0
       var val
+
       for (var key in this.data) {
         val = this.data[key]
         total += val
