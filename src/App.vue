@@ -1,26 +1,47 @@
 <template lang="pug">
   #app
+    chart-heading.heading-wpver(:data="requires") Required WordPress Version
     pie-chart.chart.wpver(:width="300", :height="300", :chart-data="chartData")
+
+    chart-heading.heading-wptest(:data="tested") Tested WordPress Version
     pie-chart.chart.wptest(:width="300", :height="300", :chart-data="chartDataTes")
+
+    chart-heading.heading-phpver(:data="requires_php") Required PHP Version
     pie-chart.chart.phpver(:width="300", :height="300", :chart-data="chartDataRqp")
+
+    chart-heading.heading-dl(:data="downloads") Downloads
+    pie-chart.chart.dl(:width="300", :height="300", :chart-data="chartDataDl")
+
+    chart-heading.heading-ins(:data="installs") Active Installs
+    pie-chart.chart.ins(:width="300", :height="300", :chart-data="chartDataIns")
+
+    chart-heading.heading-ins(:data="dates") Last update
+    pie-chart.chart.ins(:width="300", :height="300", :chart-data="fillDataDates")
 </template>
 
 <script>
 import axios from 'axios'
 import PieChart from './components/PieChart'
+import ChartHeading from './components/ChartHeading'
 
 export default {
   components: {
-    PieChart
+    PieChart,
+    ChartHeading
   },
   data () {
     return {
       requires: {},
       tested: {},
       requires_php: {},
+      downloads: {},
+      installs: {},
+      dates: {},
       chartData: {},
       chartDataTes: {},
       chartDataRqp: {},
+      chartDataDl: {},
+      chartDataIns: {},
       errors: [],
       url: 'https://raw.githubusercontent.com/Mirucon/plugin-stats/master/plugins.min.json'
     }
@@ -31,6 +52,9 @@ export default {
       this.requires = response.data[0]
       this.tested = response.data[1]
       this.requires_php = response.data[2]
+      this.downloads = response.data[3]
+      this.installs = response.data[4]
+      this.dates = response.data[5]
     })
     .catch(e => {
       this.errors.push(e)
@@ -75,6 +99,45 @@ export default {
           }
         ]
       }
+    },
+    fillDataDl () {
+      this.chartDataDl = {
+        labels: Object.keys(this.downloads),
+        datasets: [
+          {
+            label: 'Number of Downloads',
+            backgroundColor: '#444444',
+            borderWidth: 0.4,
+            data: Object.values(this.downloads)
+          }
+        ]
+      }
+    },
+    fillDataIns () {
+      this.chartDataIns = {
+        labels: Object.keys(this.installs),
+        datasets: [
+          {
+            label: 'Number of Active Installs',
+            backgroundColor: '#444444',
+            borderWidth: 0.4,
+            data: Object.values(this.installs)
+          }
+        ]
+      }
+    },
+    fillDataDates () {
+      this.chartDataIns = {
+        labels: Object.keys(this.dates),
+        datasets: [
+          {
+            label: 'The last updates',
+            backgroundColor: '#444444',
+            borderWidth: 0.4,
+            data: Object.values(this.dates)
+          }
+        ]
+      }
     }
   },
   watch: {
@@ -86,6 +149,15 @@ export default {
     },
     requires_php: function () {
       this.fillDataRqp()
+    },
+    downloads: function () {
+      this.fillDataDl()
+    },
+    installs: function () {
+      this.fillDataIns()
+    },
+    dates: function () {
+      this.fillDataDates()
     }
   }
 }
@@ -93,14 +165,16 @@ export default {
 
 <style lang="scss">
 #app {
+  max-width: 800px;
+  margin: 20px auto 0;
+  color: #2c3e50;
+  text-align: center;
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
 }
-h1, h2 {
+h2 {
+  margin: 1.4em 0 .3em;
   font-weight: normal;
 }
 ul {
@@ -113,5 +187,8 @@ li {
 }
 a {
   color: #42b983;
+}
+.chart {
+  margin-bottom: 1.6em
 }
 </style>

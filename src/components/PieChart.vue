@@ -5,7 +5,7 @@ const { reactiveProp } = mixins
 export default {
   data () {
     return {
-      options: {responsive: true, maintainAspectRatio: false}
+      options: {responsive: true, maintainAspectRatio: true}
     }
   },
   extends: Pie,
