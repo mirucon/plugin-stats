@@ -4,22 +4,22 @@
     p This is an unofficial stats for the plugins that are available in the WordPress.org plugin repository.
     p There are currently <strong>{{ total }}</strong> plugins in the repo.
 
-    chart-heading.heading-wpver(:data="requires", kind="req") Required WordPress Version
+    chart-heading.heading-wpver(:data="requires", kind="req", title="Required WordPress Version") 
     pie-chart.chart.wpver(:width="300", :height="300", :chart-data="chartData")
 
-    chart-heading.heading-wptest(:data="tested", kind="tes") Tested WordPress Version
+    chart-heading.heading-wptest(:data="tested", kind="tes", title="Tested WordPress Version") 
     pie-chart.chart.wptest(:width="300", :height="300", :chart-data="chartDataTes")
 
-    chart-heading.heading-phpver(:data="requires_php" kind="rqp") Required PHP Version
+    chart-heading.heading-phpver(:data="requires_php" kind="rqp", title="Required PHP Version")
     pie-chart.chart.phpver(:width="300", :height="300", :chart-data="chartDataRqp")
 
-    chart-heading.heading-dl(:data="downloads", kind="dl") Downloads
+    chart-heading.heading-dl(:data="downloads", kind="dl", title="Downloads")
     pie-chart.chart.dl(:width="300", :height="300", :chart-data="chartDataDl")
 
-    chart-heading.heading-ins(:data="installs", kind="ins") Active Installs
+    chart-heading.heading-ins(:data="installs", kind="ins", title="Active Installs") 
     pie-chart.chart.ins(:width="300", :height="300", :chart-data="chartDataIns")
 
-    chart-heading.heading-dates(:data="dates", kind="dates") Last update
+    chart-heading.heading-dates(:data="dates", kind="dates", title="Last update") 
     pie-chart.chart.dates(:width="300", :height="300", :chart-data="chartDataDates")
 </template>
 

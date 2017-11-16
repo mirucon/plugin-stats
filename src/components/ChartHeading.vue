@@ -1,12 +1,13 @@
 <template lang="pug">
-  h2 {{ total }} {{ kind }}
+  h2 {{ title }}
 </template>
 
 <script>
 export default {
   props: {
     data: Object,
-    kind: String
+    kind: String,
+    title: String
   },
   data () {
     return {
