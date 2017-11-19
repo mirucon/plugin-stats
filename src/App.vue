@@ -1,5 +1,7 @@
 <template lang="pug">
   #app
+    switcher
+
     h1 Plugin Stats
     p This is an unofficial stats for the plugins that are available in the WordPress.org plugin repository.
     p There are currently <strong>{{ total }}</strong> plugins in the repo.
@@ -30,11 +32,14 @@
 import axios from 'axios'
 import PieChart from './components/PieChart'
 import ChartHeading from './components/ChartHeading'
+import Switcher from './components/Switcher'
+import palette from 'google-palette'
 
 export default {
   components: {
     PieChart,
-    ChartHeading
+    ChartHeading,
+    Switcher
   },
   data () {
     return {
@@ -79,7 +84,9 @@ export default {
         datasets: [
           {
             label: 'Versions that plugins requires',
-            backgroundColor: this.colors,
+            backgroundColor: palette('tol-sq', Object.keys(this.requires).length).map(function (hex) {
+              return '#' + hex
+            }),
             borderWidth: 0.4,
             data: Object.values(this.requires)
           }
@@ -92,7 +99,9 @@ export default {
         datasets: [
           {
             label: 'Versions that plugins tested',
-            backgroundColor: '#444444',
+            backgroundColor: palette('tol-sq', Object.keys(this.tested).length).map(function (hex) {
+              return '#' + hex
+            }),
             borderWidth: 0.4,
             data: Object.values(this.tested)
           }
@@ -105,7 +114,9 @@ export default {
         datasets: [
           {
             label: 'PHP Versions that plugins requires',
-            backgroundColor: '#444444',
+            backgroundColor: palette('tol-sq', Object.keys(this.requires_php).length).map(function (hex) {
+              return '#' + hex
+            }),
             borderWidth: 0.4,
             data: Object.values(this.requires_php)
           }
@@ -118,7 +129,9 @@ export default {
         datasets: [
           {
             label: 'Number of Downloads',
-            backgroundColor: '#444444',
+            backgroundColor: palette('tol-sq', Object.keys(this.downloads).length).map(function (hex) {
+              return '#' + hex
+            }),
             borderWidth: 0.4,
             data: Object.values(this.downloads)
           }
@@ -131,7 +144,9 @@ export default {
         datasets: [
           {
             label: 'Number of Active Installs',
-            backgroundColor: '#444444',
+            backgroundColor: palette('tol-sq', Object.keys(this.installs).length).map(function (hex) {
+              return '#' + hex
+            }),
             borderWidth: 0.4,
             data: Object.values(this.installs)
           }
@@ -144,7 +159,9 @@ export default {
         datasets: [
           {
             label: 'The last updates',
-            backgroundColor: ['#444', '#00ffff', '#444', '#00ffff', '#444', '#00ffff', '#444', '#00ffff'],
+            backgroundColor: palette('tol-sq', Object.keys(this.dates).length).map(function (hex) {
+              return '#' + hex
+            }),
             borderWidth: 0.4,
             data: Object.values(this.dates)
           }
@@ -153,7 +170,6 @@ export default {
     }
   },
   mounted: function () {
-    this.colors = ['#444', '#00ffff']
     this.options.tooltips = {
       callbacks: {
         label: function (tooltipItem, data) {
@@ -164,7 +180,7 @@ export default {
           })
           var currentValue = dataset.data[tooltipItem.index]
           var percentage = (((currentValue / total) * 100) + 0.5).toFixed(1)
-          return ' ' + label + ': ' + percentage + '%'
+          return ' ' + label + ': ' + percentage + '%, ' + currentValue
         }
       },
       bodyFontSize: 14
