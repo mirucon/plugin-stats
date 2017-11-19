@@ -5,22 +5,25 @@
     p There are currently <strong>{{ total }}</strong> plugins in the repo.
 
     chart-heading.heading-wpver(:data="requires", kind="req", title="Required WordPress Version") 
-    pie-chart.chart.wpver(:width="300", :height="300", :chart-data="chartData")
+    pie-chart.chart.wpver(:width="300", :height="300", :chart-data="chartData", :options="options")
 
     chart-heading.heading-wptest(:data="tested", kind="tes", title="Tested WordPress Version") 
-    pie-chart.chart.wptest(:width="300", :height="300", :chart-data="chartDataTes")
+    pie-chart.chart.wptest(:width="300", :height="300", :chart-data="chartDataTes", :options="options")
 
     chart-heading.heading-phpver(:data="requires_php" kind="rqp", title="Required PHP Version")
-    pie-chart.chart.phpver(:width="300", :height="300", :chart-data="chartDataRqp")
+    pie-chart.chart.phpver(:width="300", :height="300", :chart-data="chartDataRqp", :options="options")
 
     chart-heading.heading-dl(:data="downloads", kind="dl", title="Downloads")
-    pie-chart.chart.dl(:width="300", :height="300", :chart-data="chartDataDl")
+    pie-chart.chart.dl(:width="300", :height="300", :chart-data="chartDataDl", :options="options")
 
     chart-heading.heading-ins(:data="installs", kind="ins", title="Active Installs") 
-    pie-chart.chart.ins(:width="300", :height="300", :chart-data="chartDataIns")
+    pie-chart.chart.ins(:width="300", :height="300", :chart-data="chartDataIns", :options="options")
 
     chart-heading.heading-dates(:data="dates", kind="dates", title="Last update") 
-    pie-chart.chart.dates(:width="300", :height="300", :chart-data="chartDataDates")
+    pie-chart.chart.dates(:width="300", :height="300", :chart-data="chartDataDates", :options="options")
+
+    footer.footer
+      p.copyright &copy; 2017 Mirucon
 </template>
 
 <script>
@@ -48,8 +51,10 @@ export default {
       chartDataDl: {},
       chartDataIns: {},
       chartDataDates: {},
+      options: {responsive: true, maintainAspectRatio: true},
+      colors: [],
       errors: [],
-      url: 'https://raw.githubusercontent.com/Mirucon/plugin-stats/master/plugins.min.json'
+      url: 'https://raw.githubusercontent.com/Mirucon/plugin-stats-backend/json/plugins.min.json'
     }
   },
   created: function () {
@@ -73,8 +78,8 @@ export default {
         labels: Object.keys(this.requires),
         datasets: [
           {
-            label: 'What version of WordPress requires?',
-            backgroundColor: '#444444',
+            label: 'Versions that plugins requires',
+            backgroundColor: this.colors,
             borderWidth: 0.4,
             data: Object.values(this.requires)
           }
@@ -86,7 +91,7 @@ export default {
         labels: Object.keys(this.tested),
         datasets: [
           {
-            label: 'On what version of WordPress tested?',
+            label: 'Versions that plugins tested',
             backgroundColor: '#444444',
             borderWidth: 0.4,
             data: Object.values(this.tested)
@@ -99,7 +104,7 @@ export default {
         labels: Object.keys(this.requires_php),
         datasets: [
           {
-            label: 'What version of PHP requires?',
+            label: 'PHP Versions that plugins requires',
             backgroundColor: '#444444',
             borderWidth: 0.4,
             data: Object.values(this.requires_php)
@@ -139,12 +144,30 @@ export default {
         datasets: [
           {
             label: 'The last updates',
-            backgroundColor: '#444444',
+            backgroundColor: ['#444', '#00ffff', '#444', '#00ffff', '#444', '#00ffff', '#444', '#00ffff'],
             borderWidth: 0.4,
             data: Object.values(this.dates)
           }
         ]
       }
+    }
+  },
+  mounted: function () {
+    this.colors = ['#444', '#00ffff']
+    this.options.tooltips = {
+      callbacks: {
+        label: function (tooltipItem, data) {
+          var label = data.labels[tooltipItem.index]
+          var dataset = data.datasets[tooltipItem.datasetIndex]
+          var total = dataset.data.reduce(function (previousValue, currentValue, currentIndex, array) {
+            return previousValue + currentValue
+          })
+          var currentValue = dataset.data[tooltipItem.index]
+          var percentage = (((currentValue / total) * 100) + 0.5).toFixed(1)
+          return ' ' + label + ': ' + percentage + '%'
+        }
+      },
+      bodyFontSize: 14
     }
   },
   watch: {
