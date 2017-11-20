@@ -1,7 +1,7 @@
 <template lang="pug">
   .switcher-container
-    button.switcher(v-on:click="table", v-bind:class="{ active: isTable }") Table
-    button.switcher(v-on:click="chart", v-bind:class="{ active: isChart }") Chart
+    button.switcher(v-on:click="isChart=!isChart", v-bind:class="{ active: isChart }") Chart
+    button.switcher(v-on:click="isTable=!isTable", v-bind:class="{ active: isTable }") Table
 </template>
 
 <script>
@@ -10,16 +10,6 @@ export default {
     return {
       isTable: false,
       isChart: true
-    }
-  },
-  methods: {
-    table () {
-      this.isTable = !this.isTable
-      this.isChart = false
-    },
-    chart () {
-      this.isChart = !this.isChart
-      this.isTable = false
     }
   }
 }
@@ -42,7 +32,7 @@ export default {
   transition: .2s;
   &:hover {
     color: #fafafa;
-    background-color: #97c5dc;
+    background-color: #8acdd6;
     outline: none;
   }
   &:focus {

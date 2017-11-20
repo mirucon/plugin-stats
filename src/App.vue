@@ -1,45 +1,68 @@
 <template lang="pug">
   #app
-    switcher
+    .switcher-container
+      button.switcher(v-on:click="isChart=!isChart", v-bind:class="{ active: isChart }") Chart
+      button.switcher(v-on:click="isTable=!isTable", v-bind:class="{ active: isTable }") Table
 
     h1 Plugin Stats
     p This is an unofficial stats for the plugins that are available in the WordPress.org plugin repository.
     p There are currently <strong>{{ total }}</strong> plugins in the repo.
 
-    chart-heading.heading-wpver(:data="requires", kind="req", title="Required WordPress Version") 
-    pie-chart.chart.wpver(:width="300", :height="300", :chart-data="chartData", :options="options")
+    .wpver-container
+      chart-heading.heading-wpver(:data="requires", kind="req", title="Required WordPress Version")
+      pie-chart.chart.wpver(v-if="isChart", :width="300", :height="300", :chart-data="chartData", :options="options")
 
-    chart-heading.heading-wptest(:data="tested", kind="tes", title="Tested WordPress Version") 
-    pie-chart.chart.wptest(:width="300", :height="300", :chart-data="chartDataTes", :options="options")
+      getTable(:requires="requires", v-if="isTable")
 
-    chart-heading.heading-phpver(:data="requires_php" kind="rqp", title="Required PHP Version")
-    pie-chart.chart.phpver(:width="300", :height="300", :chart-data="chartDataRqp", :options="options")
+    .wptest-container
+      chart-heading.heading-wptest(:data="tested", kind="tes", title="Tested WordPress Version")
+      pie-chart.chart.wptest(v-if="isChart", :width="300", :height="300", :chart-data="chartDataTes", :options="options")
 
-    chart-heading.heading-dl(:data="downloads", kind="dl", title="Downloads")
-    pie-chart.chart.dl(:width="300", :height="300", :chart-data="chartDataDl", :options="options")
+      getTable(:requires="tested", v-if="isTable")
 
-    chart-heading.heading-ins(:data="installs", kind="ins", title="Active Installs") 
-    pie-chart.chart.ins(:width="300", :height="300", :chart-data="chartDataIns", :options="options")
+    .phpver-container
+      chart-heading.heading-phpver(:data="requires_php" kind="rqp", title="Required PHP Version")
+      pie-chart.chart.phpver(v-if="isChart", :width="300", :height="300", :chart-data="chartDataRqp", :options="options")
 
-    chart-heading.heading-dates(:data="dates", kind="dates", title="Last update") 
-    pie-chart.chart.dates(:width="300", :height="300", :chart-data="chartDataDates", :options="options")
+      getTable(:requires="requires_php", v-if="isTable")
+
+    .dl-container
+      chart-heading.heading-dl(:data="downloads", kind="dl", title="Downloads")
+      pie-chart.chart.dl(v-if="isChart", :width="300", :height="300", :chart-data="chartDataDl", :options="options")
+
+      getTable(:requires="downloads", v-if="isTable")
+
+    .installs-container
+      chart-heading.heading-ins(:data="installs", kind="ins", title="Active Installs")
+      pie-chart.chart.ins(v-if="isChart", :width="300", :height="300", :chart-data="chartDataIns", :options="options")
+
+      getTable(:requires="installs", v-if="isTable")
+
+    .dates-container
+      chart-heading.heading-dates(:data="dates", kind="dates", title="Last update") 
+      pie-chart.chart.dates(v-if="isChart", :width="300", :height="300", :chart-data="chartDataDates", :options="options")
+
+      getTable(:requires="dates", v-if="isTable")
 
     footer.footer
       p.copyright &copy; 2017 Mirucon
+      p.github
+        a(href='https://github.com/Mirucon/plugin-stats', target='_blank') GitHub
+
 </template>
 
 <script>
 import axios from 'axios'
 import PieChart from './components/PieChart'
 import ChartHeading from './components/ChartHeading'
-import Switcher from './components/Switcher'
+import GetTable from './components/GetTable'
 import palette from 'google-palette'
 
 export default {
   components: {
     PieChart,
     ChartHeading,
-    Switcher
+    GetTable
   },
   data () {
     return {
@@ -59,6 +82,8 @@ export default {
       options: {responsive: true, maintainAspectRatio: true},
       colors: [],
       errors: [],
+      isTable: false,
+      isChart: true,
       url: 'https://raw.githubusercontent.com/Mirucon/plugin-stats-backend/json/plugins.min.json'
     }
   },
@@ -211,7 +236,7 @@ export default {
 
 <style lang="scss">
 #app {
-  max-width: 800px;
+  max-width: 650px;
   margin: 20px auto 0;
   color: #2c3e50;
   text-align: center;
@@ -234,6 +259,41 @@ li {
 a {
   color: #42b983;
 }
+
+.switcher {
+  display: inline-block;
+  padding: .8em .9em;
+  border: none;
+  background: #ececec;
+  color: #00BCD4;
+  font-size: .8em;
+  text-align: right;
+  border-radius: 2px;
+  text-transform: uppercase;
+  font-weight: 600;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  transition: .2s;
+  &:hover {
+    color: #fafafa;
+    background-color: #8acdd6;
+    outline: none;
+  }
+  &:focus {
+    outline: none;
+  }
+  &:not(:last-child) {
+    margin-right: 1px;
+  }
+}
+.active {
+  @extend .switcher:hover;
+  background-color: #39c;
+  &:hover {
+    background-color: #39c;
+  }
+}
+
 .chart {
   margin-bottom: 1.6em
 }
