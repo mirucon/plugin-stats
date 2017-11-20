@@ -4,6 +4,7 @@
   "description": "A Vue.js project",
   "author": "mirucon <i@miruc.co>",
   "private": true,
+  "license": "GPL-2.0+",
   "scripts": {
     "dev": "node build/dev-server.js",
     "start": "npm run dev",
