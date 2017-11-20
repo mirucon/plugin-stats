@@ -1,8 +1,13 @@
 <template lang="pug">
-  table.table
-    tr.line(v-for="(value, key) in requires")
-      th.tb.key {{ key }}
-      td.tb.value {{ value }}
+  .table-container
+    table.table
+      tr.line(v-for="(value, key) in firstHalf")
+        th.tb.key {{ key }}
+        td.tb.value {{ value }}
+    table.table
+      tr.line(v-for="(value, key) in secondHalf")
+        th.tb.key {{ key }}
+        td.tb.value {{ value }}
 
 </template>
 
@@ -10,19 +15,62 @@
 export default {
   data () {
     return {
-      labels: [],
-      items: []
+      keys: [],
+      values: [],
+      firstHalf: {},
+      secondHalf: {},
+      isHalf: false
     }
   },
   props: {
-    requires: Object
+    tableData: Object
+  },
+  methods: {
+    getObject () {
+      this.firstHalf = this.tableData
+      var dataLength = Object.keys(this.tableData).length
+
+      if (dataLength > 20) {
+        this.isHalf = true
+        var chartData = {}
+        var lengthNum = Math.ceil(dataLength / 2)
+
+        console.log('totalLength: ' + dataLength)
+        console.log('lengthNum: ' + lengthNum)
+
+        var keys = Object.keys(this.tableData)
+        var values = Object.values(this.tableData)
+
+        var keysFirstHalf = keys.slice(0, lengthNum)
+        var valuesFirstHalf = values.slice(0, lengthNum)
+
+        for (var i = 0; i < lengthNum; i++) {
+          chartData[keysFirstHalf[i]] = valuesFirstHalf[i]
+        }
+        this.firstHalf = chartData
+        chartData = {}
+
+        var keysSecoundHalf = keys.slice(lengthNum, dataLength)
+        var valuesSecoundHalf = values.slice(lengthNum, dataLength)
+
+        for (i = 0; i < lengthNum; i++) {
+          chartData[keysSecoundHalf[i]] = valuesSecoundHalf[i]
+        }
+        this.secondHalf = chartData
+
+        console.log('firstHalf: ' + Object.keys(this.firstHalf).length)
+      }
+    }
+  },
+  mounted: function () {
+    this.getObject()
   }
 }
 </script>
 
 <style lang="scss">
 .table {
-  margin: 0 auto;
+  margin: .7em auto 0;
 }
 .line {
   border-bottom: 1px solid #ddd;

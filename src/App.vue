@@ -12,37 +12,37 @@
       chart-heading.heading-wpver(:data="requires", kind="req", title="Required WordPress Version")
       pie-chart.chart.wpver(v-if="isChart", :width="300", :height="300", :chart-data="chartData", :options="options")
 
-      getTable(:requires="requires", v-if="isTable")
+      getTable(:table-data="requires", v-if="isTable")
 
     .wptest-container
       chart-heading.heading-wptest(:data="tested", kind="tes", title="Tested WordPress Version")
       pie-chart.chart.wptest(v-if="isChart", :width="300", :height="300", :chart-data="chartDataTes", :options="options")
 
-      getTable(:requires="tested", v-if="isTable")
+      getTable(:table-data="tested", v-if="isTable")
 
     .phpver-container
       chart-heading.heading-phpver(:data="requires_php" kind="rqp", title="Required PHP Version")
       pie-chart.chart.phpver(v-if="isChart", :width="300", :height="300", :chart-data="chartDataRqp", :options="options")
 
-      getTable(:requires="requires_php", v-if="isTable")
+      getTable(:table-data="requires_php", v-if="isTable")
 
     .dl-container
       chart-heading.heading-dl(:data="downloads", kind="dl", title="Downloads")
       pie-chart.chart.dl(v-if="isChart", :width="300", :height="300", :chart-data="chartDataDl", :options="options")
 
-      getTable(:requires="downloads", v-if="isTable")
+      getTable(:table-data="downloads", v-if="isTable")
 
     .installs-container
       chart-heading.heading-ins(:data="installs", kind="ins", title="Active Installs")
       pie-chart.chart.ins(v-if="isChart", :width="300", :height="300", :chart-data="chartDataIns", :options="options")
 
-      getTable(:requires="installs", v-if="isTable")
+      getTable(:table-data="installs", v-if="isTable")
 
     .dates-container
       chart-heading.heading-dates(:data="dates", kind="dates", title="Last update") 
       pie-chart.chart.dates(v-if="isChart", :width="300", :height="300", :chart-data="chartDataDates", :options="options")
 
-      getTable(:requires="dates", v-if="isTable")
+      getTable(:table-data="dates", v-if="isTable")
 
     footer.footer
       p.copyright &copy; 2017 Mirucon
