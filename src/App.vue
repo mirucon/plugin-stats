@@ -4,24 +4,25 @@
       button.switcher(v-on:click="isChart=!isChart", v-bind:class="{ active: isChart }") Chart
       button.switcher(v-on:click="isTable=!isTable", v-bind:class="{ active: isTable }") Table
 
-    h1 Plugin Stats
-    p This is an unofficial stats for the plugins that are available in the WordPress.org plugin repository.
-    p There are currently <strong>{{ total }}</strong> plugins in the repo.
+    .site-info
+      h1 Plugin Stats
+      p This is an unofficial stats for the plugins that are available in the WordPress.org plugin repository.
+      p There are currently <strong>{{ total }}</strong> plugins in the repo.
 
     .wpver-container
-      chart-heading.heading-wpver(:data="requires", kind="req", title="Required WordPress Version")
+      chart-heading.heading-wpver(:data="requires", kind="req", title="Required WordPress Versions")
       pie-chart.chart.wpver(v-if="isChart", :width="300", :height="300", :chart-data="chartData", :options="options")
 
       getTable(:table-data="requires", v-if="isTable")
 
     .wptest-container
-      chart-heading.heading-wptest(:data="tested", kind="tes", title="Tested WordPress Version")
+      chart-heading.heading-wptest(:data="tested", kind="tes", title="Tested WordPress Versions")
       pie-chart.chart.wptest(v-if="isChart", :width="300", :height="300", :chart-data="chartDataTes", :options="options")
 
       getTable(:table-data="tested", v-if="isTable")
 
     .phpver-container
-      chart-heading.heading-phpver(:data="requires_php" kind="rqp", title="Required PHP Version")
+      chart-heading.heading-phpver(:data="requires_php" kind="rqp", title="Required PHP Versions")
       pie-chart.chart.phpver(v-if="isChart", :width="300", :height="300", :chart-data="chartDataRqp", :options="options")
 
       getTable(:table-data="requires_php", v-if="isTable")
@@ -39,7 +40,7 @@
       getTable(:table-data="installs", v-if="isTable")
 
     .dates-container
-      chart-heading.heading-dates(:data="dates", kind="dates", title="Last update") 
+      chart-heading.heading-dates(:data="dates", kind="dates", title="Last Update") 
       pie-chart.chart.dates(v-if="isChart", :width="300", :height="300", :chart-data="chartDataDates", :options="options")
 
       getTable(:table-data="dates", v-if="isTable")

@@ -1,13 +1,20 @@
 <template lang="pug">
   .table-container
-    table.table
-      tr.line(v-for="(value, key) in firstHalf")
-        th.tb.key {{ key }}
-        td.tb.value {{ value }}
-    table.table
-      tr.line(v-for="(value, key) in secondHalf")
-        th.tb.key {{ key }}
-        td.tb.value {{ value }}
+    .table
+      div.keys
+        span.tb.key(v-for="key in keysFirstHalf") {{ key }}
+      div.values
+        span.tb.value(v-for="value in valuesFirstHalf") {{ value }}
+    .table(v-if="isHalf")
+      div.keys
+        span.tb.key(v-for="key in keysSecoundHalf") {{ key }}
+      div.values
+        span.tb.value(v-for="value in valuesSecoundHalf") {{ value }}
+    .table(v-if="isHalf")
+      div.keys
+        span.tb.key(v-for="key in keysThirdHalf") {{ key }}
+      div.values
+        span.tb.value(v-for="value in valuesThirdHalf") {{ value }}
 
 </template>
 
@@ -15,72 +22,80 @@
 export default {
   data () {
     return {
-      keys: [],
-      values: [],
-      firstHalf: {},
-      secondHalf: {},
+      keysFirstHalf: [],
+      valuesFirstHalf: [],
+      keysSecoundHalf: [],
+      valuesSecoundHalf: [],
+      keysThirdHalf: [],
+      valuesThirdHalf: [],
       isHalf: false
     }
   },
   props: {
     tableData: Object
   },
-  methods: {
-    getObject () {
-      this.firstHalf = this.tableData
-      var dataLength = Object.keys(this.tableData).length
-
-      if (dataLength > 20) {
-        this.isHalf = true
-        var chartData = {}
-        var lengthNum = Math.ceil(dataLength / 2)
-
-        console.log('totalLength: ' + dataLength)
-        console.log('lengthNum: ' + lengthNum)
-
-        var keys = Object.keys(this.tableData)
-        var values = Object.values(this.tableData)
-
-        var keysFirstHalf = keys.slice(0, lengthNum)
-        var valuesFirstHalf = values.slice(0, lengthNum)
-
-        for (var i = 0; i < lengthNum; i++) {
-          chartData[keysFirstHalf[i]] = valuesFirstHalf[i]
-        }
-        this.firstHalf = chartData
-        chartData = {}
-
-        var keysSecoundHalf = keys.slice(lengthNum, dataLength)
-        var valuesSecoundHalf = values.slice(lengthNum, dataLength)
-
-        for (i = 0; i < lengthNum; i++) {
-          chartData[keysSecoundHalf[i]] = valuesSecoundHalf[i]
-        }
-        this.secondHalf = chartData
-
-        console.log('firstHalf: ' + Object.keys(this.firstHalf).length)
-      }
-    }
-  },
   mounted: function () {
-    this.getObject()
+    this.firstHalf = this.tableData
+    var dataLength = Object.keys(this.tableData).length
+
+    var keys = Object.keys(this.tableData)
+    var values = Object.values(this.tableData)
+
+    this.keys = keys
+    this.values = values
+
+    if (dataLength > 20) {
+      this.isHalf = true
+      var lengthNum = Math.ceil(dataLength / 3)
+
+      this.keysFirstHalf = keys.slice(0, lengthNum)
+      this.valuesFirstHalf = values.slice(0, lengthNum)
+
+      this.keysSecoundHalf = keys.slice(lengthNum, dataLength / 3 * 2)
+      this.valuesSecoundHalf = values.slice(lengthNum, dataLength / 3 * 2)
+
+      this.keysThirdHalf = keys.slice(Math.ceil(dataLength / 3 * 2), dataLength)
+      this.valuesThirdHalf = values.slice(Math.ceil(dataLength / 3 * 2), dataLength)
+    } else {
+      this.keysFirstHalf = keys
+      this.valuesFirstHalf = values
+    }
   }
 }
 </script>
 
 <style lang="scss">
+.table-container {
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  max-width: 440px;
+  margin: 0 auto;
+}
 .table {
   margin: .7em auto 0;
 }
-.line {
-  border-bottom: 1px solid #ddd;
+
+.keys, .values {
+  display: inline-flex;
+  flex-flow: column wrap;
+}
+.keys {
+  font-weight: 600;
+}
+.values {
+  margin-left: .14em;
+}
+
+.key {
+  background: #fcfdfc;
+  border-radius: 2px;
 }
 .tb {
-  padding: .5em .6em;
+  display: inline-flex;
+  box-sizing: border-box;
+  justify-content: center;
+  padding: .6em .7em;
   border-bottom: 1px solid #ddd;
-}
-.key {
-  background: #fefefe;
-  border-radius: 1px;
 }
 </style>
