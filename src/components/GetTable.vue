@@ -41,9 +41,6 @@ export default {
     var keys = Object.keys(this.tableData)
     var values = Object.values(this.tableData)
 
-    this.keys = keys
-    this.values = values
-
     if (dataLength > 20) {
       this.isHalf = true
       var lengthNum = Math.ceil(dataLength / 3)
