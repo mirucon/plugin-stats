@@ -40,13 +40,13 @@
       getTable(:table-data="installs", v-if="isTable")
 
     .dates-container
-      chart-heading.heading-dates(:data="dates", kind="dates", title="Last Update") 
+      chart-heading.heading-dates(:data="dates", kind="dates", title="Last Update")
       pie-chart.chart.dates(v-if="isChart", :width="300", :height="300", :chart-data="chartDataDates", :options="options")
 
       getTable(:table-data="dates", v-if="isTable")
 
     footer.footer
-      p.copyright &copy; 2017 Mirucon
+      p.copyright &copy; {{ year }} Mirucon
       p.github
         a(href='https://github.com/Mirucon/plugin-stats', target='_blank') GitHub
 
@@ -83,6 +83,8 @@ export default {
       options: {responsive: true, maintainAspectRatio: true},
       colors: [],
       errors: [],
+      lastModified: '',
+      year: '',
       isTable: false,
       isChart: true,
       url: 'https://raw.githubusercontent.com/Mirucon/plugin-stats-backend/json/plugins.min.json'
@@ -98,10 +100,13 @@ export default {
       this.installs = response.data[4]
       this.dates = response.data[5]
       this.total = response.data[6]
+      this.lastModified = response.headers['date']
     })
     .catch(e => {
       this.errors.push(e)
     })
+    var now = new Date()
+    this.year = now.getFullYear()
   },
   methods: {
     fillData () {
