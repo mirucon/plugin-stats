@@ -23,8 +23,6 @@ export default {
       dateArray[1] = dateArray[1] - 1
       var lastModified = new Date(Date.UTC(dateArray[0], dateArray[1], dateArray[2], dateArray[3], dateArray[4]))
       this.relTime = timeago().format(lastModified)
-      // console.log(dateArray[0], dateArray[1], dateArray[2], dateArray[3], dateArray[4])
-      // console.log(lastModified)
     }
   },
   watch: {
@@ -34,7 +32,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-
-</style>

@@ -269,6 +269,19 @@ a {
   color: #42b983;
 }
 
+.switcher-container {
+  @media screen and (min-width: 600px) {
+    position: fixed;
+    left: 10px;
+  }
+  @media screen and (max-width: 599px) {
+    position: fixed;
+    top: 0px;
+    display: flex;
+    justify-content: center;
+    padding-top: 10px;
+  }
+}
 .switcher {
   display: inline-block;
   padding: .8em .9em;
