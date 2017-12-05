@@ -84,6 +84,7 @@
     "shelljs": "^0.7.6",
     "sinon": "^4.0.0",
     "sinon-chai": "^2.8.0",
+    "timeago.js": "^3.0.2",
     "url-loader": "^0.5.8",
     "vue-chartjs": "^3.0.0",
     "vue-loader": "^13.3.0",

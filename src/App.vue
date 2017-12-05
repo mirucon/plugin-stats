@@ -6,7 +6,7 @@
 
     .site-info
       h1 Plugin Stats
-      p This is an unofficial stats for the plugins that are available in the WordPress.org plugin repository.
+      p An unofficial stats page for the plugins that are available in the WordPress.org plugin repository.
       p There are currently <strong>{{ total }}</strong> plugins in the repo.
 
     .wpver-container
@@ -49,6 +49,7 @@
       p.copyright &copy; {{ year }} Mirucon
       p.github
         a(href='https://github.com/Mirucon/plugin-stats', target='_blank') GitHub
+      last-updated(:lastModified="lastModified")
 
 </template>
 
@@ -57,13 +58,15 @@ import axios from 'axios'
 import PieChart from './components/PieChart'
 import ChartHeading from './components/ChartHeading'
 import GetTable from './components/GetTable'
+import LastUpdated from './components/LastUpdated'
 import palette from 'google-palette'
 
 export default {
   components: {
     PieChart,
     ChartHeading,
-    GetTable
+    GetTable,
+    LastUpdated
   },
   data () {
     return {
@@ -87,7 +90,7 @@ export default {
       year: '',
       isTable: false,
       isChart: true,
-      url: 'https://raw.githubusercontent.com/Mirucon/plugin-stats-backend/json/plugins.min.json'
+      url: 'https://raw.githubusercontent.com/Mirucon/plugin-stats-backend/json/plugins.json'
     }
   },
   created: function () {
@@ -100,7 +103,7 @@ export default {
       this.installs = response.data[4]
       this.dates = response.data[5]
       this.total = response.data[6]
-      this.lastModified = response.headers['date']
+      this.lastModified = response.data[7]
     })
     .catch(e => {
       this.errors.push(e)
